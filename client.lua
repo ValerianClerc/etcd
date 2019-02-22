@@ -11,13 +11,31 @@ function sleep(n)
   os.execute("sleep " .. tonumber(n))
 end
 
+local currState = false
+
+local res = etcd:keys_get(arg[2])
+
+if res == nil then
+    print("Invalid request")
+    os.exit(1)
+end
+
 while 1 do
-    local res = etcd:keys_get(arg[2])
-    if res == nil or not res["node"] then
-        os.exit(1)
+    if not res["node"] and currState == true then
+        -- print("false")
+        currState = false
+        os.execute("bash /usr/sbin/sc_lock")
+    elseif res["node"] and res["node"]["value"] == "true" and currState == false then
+        currState = true
+        os.execute("bash /usr/sbin/sc_unlock")
+        -- print(res["node"]["value"])
+    else
+        -- print("no change")
     end
-    print(res["node"]["value"])
+
     sleep(timeout)
+
+    res = etcd:keys_get(arg[2])
 end
 
 
