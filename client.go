@@ -9,8 +9,9 @@ import (
 )
 
 func main() {
+	hostName := "http://www.example.com:portnum"
 	cfg := client.Config{
-		Endpoints: []string{"http://d.smartcookiewifi.com:23790"},
+		Endpoints: []string{hostName},
 		Transport: client.DefaultTransport,
 		// set timeout per request to fail fast when the target endpoint is unavailable
 		HeaderTimeoutPerRequest: time.Second,
@@ -32,7 +33,8 @@ func main() {
 	// get "/foo" key's value
 
 	log.Print("Getting '/foo' key value")
-	resp, err = kapi.Get(context.Background(), "smartcookie-mgm/001cc239072f/auth", nil)
+	path := "path/to/key"
+	resp, err = kapi.Get(context.Background(), path, nil)
 	if err != nil {
 		log.Fatal(err)
 	} else {
