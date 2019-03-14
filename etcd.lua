@@ -57,6 +57,14 @@ function Etcd:keys_get(key, params)
   }
 end
 
+function Etcd:keys_watch(key, params)
+  return self:request{
+    path    = '/v2/keys/' .. key .. '?wait=true',
+    method  = 'GET',
+    params  = params
+  }
+end
+
 function Etcd:keys_put(key, params)
   return self:request{
     path    = '/v2/keys/' .. key,
