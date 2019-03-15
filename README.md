@@ -1,8 +1,21 @@
-# ETCD Lua
+# ETCD Clients
 
-Credit for starting code goes to https://github.com/anibali/etcd.lua
+Credit for starting code goes to `https://github.com/anibali/etcd.lua` and `https://github.com/etcd-io/etcd/tree/master/client`
 
-## Watch Key
+## Go
+
+### Watch key
+
+```bash
+go build client.go
+```
+```bash
+./client http://example.com:portnum /path/to/watch
+```
+
+## Lua
+
+### Watch Key
 
 to run:
 
@@ -12,7 +25,7 @@ lua watch.lua http://example.com:portnum /path/to/watch
 
 replace `os.execute()` with anything that you want to run upon change
 
-## GET Loop
+### GET Loop
 
 to run:
 

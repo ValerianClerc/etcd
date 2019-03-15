@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"time"
 
@@ -13,7 +14,8 @@ import (
 )
 
 func main() {
-	hostName := "http://www.example.com:portnum"
+	hostName := os.Args[1]
+	path := os.Args[2]
 	cfg := client.Config{
 		Endpoints: []string{hostName},
 		Transport: client.DefaultTransport,
@@ -26,8 +28,8 @@ func main() {
 	}
 	kapi := client.NewKeysAPI(c)
 
-	log.Print("Getting '/foo' key value")
-	path := "/path/to/key"
+	fmt.Println("Watching key at: ", hostName, path)
+
 	for true {
 		resp, err := kapi.Watcher(path, nil).Next(context.Background())
 
